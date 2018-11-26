@@ -166,7 +166,15 @@ class Utf8(Registered, TextFileOpener):
     def open(self):
         try:
             return self.open_text(TextIOWrapper(self.fd, encoding='utf-8'))
-        except UnicodeDecodeError:
+        except (UnicodeError, UnicodeDecodeError):
+            return None
+
+
+class Utf16(Registered, TextFileOpener):
+    def open(self):
+        try:
+            return self.open_text(TextIOWrapper(self.fd, encoding='utf-16'))
+        except (UnicodeError, UnicodeDecodeError):
             return None
 
 
