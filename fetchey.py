@@ -26,13 +26,25 @@ from io import BytesIO, TextIOWrapper
 # if not then we should download directly to disk. In either case the code should remain abstract to this,
 # and do automatic cleanup of files.
 #
-# 4. If we it's the case downloading a file fully before processing the first element results in unacceptable latency,
+# 4. If it's the case that downloading a file fully before processing the first element results in unacceptable latency,
 # or the API only has a streaming interface, then we can start to implement a streaming pipeline.
 # This is more laborious - .zip contains its directory at the end (nb. the internet suggests each file has its own
 # # header so bsdtar can therefore extract in a streaming fashion), and both XML and JSON are likely to have the
 # elements contained within a single root object, which would require some navigating with a parser.
 #
-# 5. I'm sure all sorts of connection problems will come up.
+# 5. I'm sure all sorts of connection problems will come up and retrying will be needed.
+#
+# 6. Improve the search for an opener by asking the candidate openers how well the outer chain matches what they'd
+# expect. For Gzip this would look for x-gzip in the WebDownload Content-Type header, .gzip in the WebDownload URL,
+# or octet-stream (which would also be heuristically matched by ZipSingle), or magic number at the start of the file.
+# Csv, Xml, and Json would each look either for their respective Content-Type headers or for their extension.
+# Utf8 and Utf16 could look for text/* or application/* Content-Type, and could also look for a byte order mark.
+# In practice implementing these heuristics well would lead to a direct hit on first go.
+#
+# 7. If we are really coming at a loss to distinguish one source from another, we can just process both with the same
+# schema implementation as they are so similar (which would minimise the number of classes).
+# If we expediently do need to distinguish then there is always the option to travel back to the URL
+# and see which API or bucket the source is taken from.
 
 def as_bool(x):
     if isinstance(x, str):
