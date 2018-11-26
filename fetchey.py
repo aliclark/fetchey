@@ -68,12 +68,16 @@ class Container:
 
     def get_full_name(self):
         name = self.get_name()
-        if not self.outer:
-            return name
-        outer = self
-        while outer.outer:
-            outer = outer.outer
-            name = '{} > {}'.format(outer.get_name(), name)
+        if self.outer:
+            outer = self
+            while outer.outer:
+                outer = outer.outer
+                name = '{} > {}'.format(outer.get_name(), name)
+        if self.inner:
+            inner = self
+            while inner.inner:
+                inner = inner.inner
+                name = '{} < {}'.format(name, inner.get_name())
         return name
 
 
@@ -102,12 +106,13 @@ class BinaryFileOpener(Opener):
         fd.close = do_nothing
         for opener in Opener.registered_openers(BinaryFileOpener):
             fd.seek(0)
-            self.inner = opener(fd, outer=self)
             logging.debug("{} ? {}".format(self.get_full_name(), opener.__name__))
+            self.inner = opener(fd, outer=self)
             opened = self.inner.open()
             if not opened:
+                self.inner = None
                 continue
-            logging.debug("{} > {}".format(self.get_full_name(), opener.__name__))
+            logging.debug("{}".format(self.get_full_name()))
             return opened
         self.inner = None
         return None
@@ -151,12 +156,13 @@ class TextFileOpener(BinaryFileOpener):
         fd.close = do_nothing
         for opener in Opener.registered_openers(SchemaOpener):
             fd.seek(0)
-            self.inner = opener(fd, outer=self)
             logging.debug("{} ? {}".format(self.get_full_name(), opener.__name__))
+            self.inner = opener(fd, outer=self)
             opened = self.inner.open()
             if not opened:
+                self.inner = None
                 continue
-            logging.debug("{} > {}".format(self.get_full_name(), opener.__name__))
+            logging.debug("{}".format(self.get_full_name()))
             return opened
         self.inner = None
         return None
@@ -183,12 +189,13 @@ class SchemaOpener(Opener):
         if not data:
             return None
         for opener in Opener.registered_openers(Schema):
-            self.inner = opener(data, outer=self)
             logging.debug("{} ? {}".format(self.get_full_name(), opener.__name__))
+            self.inner = opener(data, outer=self)
             opened = self.inner.open()
             if not opened:
+                self.inner = None
                 continue
-            logging.debug("{} > {}".format(self.get_full_name(), opener.__name__))
+            logging.debug("{}".format(self.get_full_name()))
             return opened
         self.inner = None
         return None
