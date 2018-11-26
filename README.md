@@ -10,7 +10,7 @@ To run this program you'll need python 3.7 and:
 * requests
 * xmltodict
 
-(There's also a Pipenv file for the two modules)
+(There's also a Pipfile file for the two modules)
 
 Usage
 -----
