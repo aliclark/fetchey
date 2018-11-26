@@ -1,7 +1,7 @@
 Fetchy
 ======
 
-Outline of a products fetcher in Python supporting various formats
+A products fetcher in Python supporting various formats
 
 Getting started
 ---------------
