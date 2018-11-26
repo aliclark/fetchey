@@ -45,6 +45,10 @@ from io import BytesIO, TextIOWrapper
 # schema implementation as they are so similar (which would minimise the number of classes).
 # If we expediently do need to distinguish then there is always the option to travel back to the URL
 # and see which API or bucket the source is taken from.
+#
+# 8. A current weak area is Schema detection, which for CSV and JSON only requires that file format plus
+# an 'id' field to be present in the first item of the data. At least a few more fields should be checked,
+# perhaps on a larger sample of the data where possible to ensure we're likely dealing with product data.
 
 def as_bool(x):
     if isinstance(x, str):
