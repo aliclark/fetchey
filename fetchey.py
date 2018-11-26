@@ -253,7 +253,7 @@ class Csv(Registered, SchemaOpener):
 
 
 @dataclass
-class Product:
+class ProductData:
     id: str
     name: str
     brand: str
@@ -278,8 +278,8 @@ class ProductsSchema(Schema):
         renames = {'latest_price': 'price', 'available': 'in_stock', 'instock': 'in_stock'}
         item = dict([(renames.get(key, key), value) for key, value in item.items()])
 
-        return Product(item.get('id'), item.get('name'), item.get('brand'), item.get('retailer'),
-                       as_float(item.get('price')), as_bool(item.get('in_stock')), self.source_name())
+        return ProductData(item.get('id'), item.get('name'), item.get('brand'), item.get('retailer'),
+                           as_float(item.get('price')), as_bool(item.get('in_stock')), self.source_name())
 
 
 class PricesearcherProductsXml(Registered, ProductsSchema):
