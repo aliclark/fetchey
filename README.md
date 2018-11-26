@@ -15,6 +15,7 @@ To run this program you'll need python 3.7 and:
 Usage
 -----
 
+```
 usage: fetchy.py [-h] [--verbose] output urls [urls ...]
 
 positional arguments:
@@ -24,6 +25,7 @@ positional arguments:
 optional arguments:
   -h, --help     show this help message and exit
   --verbose, -v
+```
 
 Rocket
 ------
