@@ -15,7 +15,7 @@ To run this program you'll need python 3.7 and:
 Usage
 -----
 
-usage: fetchey.py [-h] [--verbose] output urls [urls ...]
+usage: fetchy.py [-h] [--verbose] output urls [urls ...]
 
 positional arguments:
   output         File path for CSV output
