@@ -282,7 +282,7 @@ class ProductsSchema(Schema):
                            as_float(item.get('price')), as_bool(item.get('in_stock')), self.source_name())
 
 
-class PricesearcherProductsXml(Registered, ProductsSchema):
+class ProductsearcherProductsXml(Registered, ProductsSchema):
     def open(self):
         if not isinstance(self.outer, Xml):
             return None
@@ -300,7 +300,7 @@ class PricesearcherProductsXml(Registered, ProductsSchema):
                                      if key != '@type']))
 
 
-class PricesearcherProductsJson(Registered, ProductsSchema):
+class ProductsearcherProductsJson(Registered, ProductsSchema):
     def open(self):
         if not isinstance(self.outer, Json):
             return None
@@ -309,7 +309,7 @@ class PricesearcherProductsJson(Registered, ProductsSchema):
         return self
 
 
-class PricesearcherProductsCsv(Registered, ProductsSchema):
+class ProductsearcherProductsCsv(Registered, ProductsSchema):
     def open(self):
         if not isinstance(self.outer, Csv):
             return None
